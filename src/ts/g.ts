@@ -2,7 +2,7 @@
   1. Se om du kan hitta två stycken code smells i följande funktion och rätta till dem.
   Funktionen tar emot en lista med längshoppslängder och syftet med funktionen är att summera
   dessa hopplängder.
-  */
+*/
 
 // function getLength(jumpings: number[]): number {
 //   let totalNumber = 0;
@@ -37,17 +37,31 @@ class Student {
   ) {}
 }
 
-function getStudentStatus(student: Student): string {
-  student.passed =
-    student.name == "Sebastian"
-      ? student.handedInOnTime
-        ? true
-        : false
-      : false;
+// function getStudentStatus(student: Student): string {
+//   student.passed =
+//     student.name == "Sebastian"
+//       ? student.handedInOnTime
+//         ? true
+//         : false
+//       : false;
 
-  if (student.passed) {
+//   if (student.passed) {
+//     return "VG";
+//   } else {
+//     return "IG";
+//   }
+// }
+
+/*den dära första delen av functionen är extrem förvirrande haha,
+iaf jag skrev om functionen så att man direkt får se att vad kan retuners till the user.
+ändrar till consts och gör det lite enklare att läsa med men basicallly rörde ej id statement. */
+function getStudentStatus(student: Student): "VG" | "IG" {
+  const isSebastian = student.name === "Sebastian";
+  const isOnTime = student.handedInOnTime;
+
+  if (isSebastian && isOnTime){
     return "VG";
-  } else {
+  }else{
     return "IG";
   }
 }

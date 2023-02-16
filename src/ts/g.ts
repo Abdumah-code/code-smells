@@ -55,6 +55,7 @@ class Student {
 /*den dära första delen av functionen är extrem förvirrande haha,
 iaf jag skrev om functionen så att man direkt får se att vad kan retuners till the user.
 ändrar till consts och gör det lite enklare att läsa med men basicallly rörde ej id statement. */
+
 function getStudentStatus(student: Student): "VG" | "IG" {
   const isSebastian = student.name === "Sebastian";
   const isOnTime = student.handedInOnTime;
@@ -75,19 +76,42 @@ class Temp {
   constructor(public q: string, public where: Date, public v: number) {}
 }
 
-function averageWeeklyTemperature(heights: Temp[]) {
-  let r = 0;
+// function averageWeeklyTemperature(heights: Temp[]) {
+//   let r = 0;
 
-  for (let who = 0; who < heights.length; who++) {
-    if (heights[who].q === "Stockholm") {
-      if (heights[who].where.getTime() > Date.now() - 604800000) {
-        r += heights[who].v;
-      }
-    }
-  }
+//   for (let who = 0; who < heights.length; who++) {
+//     if (heights[who].q === "Stockholm") {
+//       if (heights[who].where.getTime() > Date.now() - 604800000) {
+//         r += heights[who].v;
+//       }
+//     }
+//   }
 
-  return r / 7;
+//   return r / 7;
+// }
+
+/* ändrar main variabelnamn till temperaturer för att heights makes no sense
+och försökte göra om alla magic numbers till normala variabler eller insode variabler.
+tog bort hela for loop för det bara gjorde koden mer krånglig
+*/
+
+function averageWeeklyTemperature(temperatures: Temp[]): number {
+  const ONE_WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000; // 604800000 ms
+
+  const relevantTemperatures = temperatures.filter(
+    (temp) =>
+      temp.q === "Stockholm" && temp.where.getTime() > Date.now() - ONE_WEEK_IN_MILLISECONDS
+  );
+
+  const sumOfTemperatures = relevantTemperatures.reduce(
+    (sum, temp) => sum + temp.v,
+    0
+  );
+
+  const averageTemperature = sumOfTemperatures / relevantTemperatures.length;
+  return averageTemperature;
 }
+
 
 /*
   4. Följande funktion kommer att presentera ett objekt i dom:en. 

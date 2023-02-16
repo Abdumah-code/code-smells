@@ -145,13 +145,12 @@ function showProduct(
 tog bort lite saker som inte ens används i og functionen. använder textcontent istället för 
 innehhtml för att det är mer vänligt. */
 
-function createProductHtml(
+function createProductElement(
   name: string,
   price: number,
-  image: string,
-  description: string
-): HTMLElement {
-
+  description: string,
+  image: string
+): HTMLDivElement {
   const container = document.createElement("div");
   const title = document.createElement("h4");
   const priceTag = document.createElement("strong");
@@ -169,8 +168,23 @@ function createProductHtml(
   return container;
 }
 
-function displayProductElemt(element: HTMLElement, parent: HTMLElement): void {
+function displayProductElement(
+  element: HTMLDivElement,
+  parent: HTMLElement
+): void {
   parent.appendChild(element);
+}
+
+//detta är exempel användning
+const productContainer = document.querySelector<HTMLElement>("#product-container");
+if (productContainer) {
+  const product = createProductElement(
+    "Product Name",
+    9.99,
+    "Product description",
+    "https://example.com/product.jpg"
+  );
+  displayProductElement(product, productContainer);
 }
 
 

@@ -350,6 +350,7 @@ const user: User = {
   birthday: new Date("1990-01-01"),
   email: "alice@example.com",
   password: "password123",
+  age: 0
 };
 
 const createdUser = createUser(user);

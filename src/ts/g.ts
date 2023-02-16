@@ -70,7 +70,7 @@ function getStudentStatus(student: Student): "VG" | "IG" {
 /*
   3. Variabelnamn är viktiga. Kika igenom följande kod och gör om och rätt.
   Det finns flera code smells att identifiera här. Vissa är lurigare än andra.
-  */
+*/
 
 class Temp {
   constructor(public q: string, public where: Date, public v: number) {}
@@ -116,7 +116,7 @@ function averageWeeklyTemperature(temperatures: Temp[]): number {
 /*
   4. Följande funktion kommer att presentera ett objekt i dom:en. 
   Se om du kan göra det bättre. Inte bara presentationen räknas, även strukturer.
-  */
+*/
 
 function showProduct(
   name: string,
@@ -190,7 +190,7 @@ if (productContainer) {
 /*
   5. Följande funktion kommer presentera studenter. Men det finns ett antal saker som 
   går att göra betydligt bättre. Gör om så många som du kan hitta!
-  */
+*/
 // function presentStudents(students: Student[]) {
 //   for (const student of students) {
 //     if (student.handedInOnTime) {
@@ -217,7 +217,7 @@ if (productContainer) {
 
 /* behövde dela i fyra functioner så att det blir bäst, det blev mer kod men jag hoppas att det blir okej för nu finnd det mindre repetition. 
 ändrade variabel nan som vanligt, sepparerade allt så att det blir enkalre att läsa och fixa om nåt går fel.
- */
+*/
 
 function createStudentCheckbox(
   handedInOnTime: boolean
@@ -271,7 +271,7 @@ presentStudents(students);
   6. Skriv en funktion som skall slå ihop följande texter på ett bra sätt:
   Lorem, ipsum, dolor, sit, amet
   Exemplet under löser problemet, men inte speciellt bra. Hur kan man göra istället?
-  */
+*/
 // function concatenateStrings() {
 //   let result = "";
 //   result += "Lorem";
@@ -293,27 +293,68 @@ function concatenateStrings(): string {
 
 /* 
 7. Denna funktion skall kontrollera att en användare är över 20 år och göra någonting.
-    Det finns dock problem med denna typ av funktion. Vad händer när kraven ändras och
-    fler och fler parametrar behöver läggas till? T.ex. avatar eller adress. Hitta en bättre
-    lösning som är hållbar och skalar bättre. 
+Det finns dock problem med denna typ av funktion. Vad händer när kraven ändras och
+fler och fler parametrar behöver läggas till? T.ex. avatar eller adress. Hitta en bättre
+lösning som är hållbar och skalar bättre. 
 */
-function createUser(
-  name: string,
-  birthday: Date,
-  email: string,
-  password: string
-) {
-  // Validation
+// function createUser(
+//   name: string,
+//   birthday: Date,
+//   email: string,
+//   password: string
+// ) {
+//   // Validation
 
-  let ageDiff = Date.now() - birthday.getTime();
-  let ageDate = new Date(ageDiff);
-  let userAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+//   let ageDiff = Date.now() - birthday.getTime();
+//   let ageDate = new Date(ageDiff);
+//   let userAge = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-  console.log(userAge);
+//   console.log(userAge);
 
-  if (!(userAge < 20)) {
-    // Logik för att skapa en användare
-  } else {
+//   if (!(userAge < 20)) {
+//     // Logik för att skapa en användare
+//   } else {
+//     return "Du är under 20 år";
+//   }
+// }
+
+/* delar upp i 2 functioner så att det är mer futureproof kan man säga, 
+läger info i en interface självklart, adderade returns så att man fattar bättre,
+ändrar variebelnamn som vanligt. samma med magec numbers.*/
+
+interface User {
+  name: string;
+  birthday: Date;
+  email: string;
+  password: string;
+  age: number;
+}
+
+function createUser(user: User): User | string {
+  const ageInYears = calculateAgeInYears(user.birthday);
+  if (ageInYears < 20) {
     return "Du är under 20 år";
   }
+  return { ...user, age: ageInYears };
+}
+
+function calculateAgeInYears(birthday: Date): number {
+  const ageDiff = Date.now() - birthday.getTime();
+  const ageDate = new Date(ageDiff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+// exempel anvädning
+const user: User = {
+  name: "Alice",
+  birthday: new Date("1990-01-01"),
+  email: "alice@example.com",
+  password: "password123",
+};
+
+const createdUser = createUser(user);
+if (typeof createdUser === "string") {
+  console.log(createdUser);
+} else {
+  console.log(createdUser);
 }

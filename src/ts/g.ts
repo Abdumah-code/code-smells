@@ -4,16 +4,26 @@
   dessa hopplängder.
   */
 
+// function getLength(jumpings: number[]): number {
+//   let totalNumber = 0;
+
+//   totalNumber = jumpings.reduce(
+//     (jumpDistanceSoFar, currentJump) => jumpDistanceSoFar + currentJump
+//   );
+
+//   return totalNumber;
+// }
+
+/* ändrade let till const för att let är för saker som ska modiferas och det vill vi inte,
+istället så är det const för det är bara ett nummer vi ska få tillbaak varje gång.
+ändrar Variabelnamn till totalDistance för att it makes sense, vi håller på räkna sträcka efter fumpings.
+lägger till en lite error för det ska vara bara siffror i en array.
+skrev om hela functionen med så att det är enklare att läsa.*/
+
 function getLength(jumpings: number[]): number {
-  let totalNumber = 0;
-
-  totalNumber = jumpings.reduce(
-    (jumpDistanceSoFar, currentJump) => jumpDistanceSoFar + currentJump
-  );
-
-  return totalNumber;
+  const totalDistance = jumpings.reduce((acc, curr) => acc + curr, 0);
+  return totalDistance;
 }
-test
 
 /*
   2. I detta exempel har vi fokuserat på if-statements. Se om du kan göra exemplet bättre!

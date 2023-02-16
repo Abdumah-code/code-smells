@@ -141,6 +141,40 @@ function showProduct(
   parent.appendChild(container);
 }
 
+/* behövde göra om den till två functioner så är det enklare att fixa den om nåt går fel,
+tog bort lite saker som inte ens används i og functionen. använder textcontent istället för 
+innehhtml för att det är mer vänligt. */
+
+function createProductHtml(
+  name: string,
+  price: number,
+  image: string,
+  description: string
+): HTMLElement {
+
+  const container = document.createElement("div");
+  const title = document.createElement("h4");
+  const priceTag = document.createElement("strong");
+  const imageTag = document.createElement("img");
+
+  title.textContent = name;
+  priceTag.textContent = price.toString();
+  imageTag.src = image;
+  imageTag.alt = name;
+
+  container.appendChild(title);
+  container.appendChild(imageTag);
+  container.appendChild(priceTag);
+
+  return container;
+}
+
+function displayProductElemt(element: HTMLElement, parent: HTMLElement): void {
+  parent.appendChild(element);
+}
+
+
+
 /*
   5. Följande funktion kommer presentera studenter. Men det finns ett antal saker som 
   går att göra betydligt bättre. Gör om så många som du kan hitta!

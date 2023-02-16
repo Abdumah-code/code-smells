@@ -187,50 +187,108 @@ if (productContainer) {
   displayProductElement(product, productContainer);
 }
 
-
-
 /*
   5. Följande funktion kommer presentera studenter. Men det finns ett antal saker som 
   går att göra betydligt bättre. Gör om så många som du kan hitta!
   */
-function presentStudents(students: Student[]) {
+// function presentStudents(students: Student[]) {
+//   for (const student of students) {
+//     if (student.handedInOnTime) {
+//       let container = document.createElement("div");
+//       let checkbox = document.createElement("input");
+//       checkbox.type = "checkbox";
+//       checkbox.checked = true;
+
+//       container.appendChild(checkbox);
+//       let listOfStudents = document.querySelector("ul#passedstudents");
+//       listOfStudents?.appendChild(container);
+//     } else {
+//       let container = document.createElement("div");
+//       let checkbox = document.createElement("input");
+//       checkbox.type = "checkbox";
+//       checkbox.checked = false;
+
+//       container.appendChild(checkbox);
+//       let listOfStudents = document.querySelector("ul#failedstudents");
+//       listOfStudents?.appendChild(container);
+//     }
+//   }
+// }
+
+/* behövde dela i fyra functioner så att det blir bäst, det blev mer kod men jag hoppas att det blir okej för nu finnd det mindre repetition. 
+ändrade variabel nan som vanligt, sepparerade allt så att det blir enkalre att läsa och fixa om nåt går fel.
+ */
+
+function createStudentCheckbox(
+  handedInOnTime: boolean
+): HTMLInputElement {
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = handedInOnTime;
+  return checkbox;
+}
+
+function addStudentCheckboxToContainer(
+  checkbox: HTMLInputElement,
+  container: HTMLElement
+): void {
+  container.appendChild(checkbox);
+}
+
+function addStudentContainerToList(
+  container: HTMLElement,
+  listId: string
+): void {
+  const list = document.querySelector<HTMLElement>(`#${listId}`);
+  if (list) {
+    list.appendChild(container);
+  }
+}
+
+function presentStudents(students: Student[]): void {
   for (const student of students) {
+    const checkbox = createStudentCheckbox(student.handedInOnTime);
+    const container = document.createElement("div");
+    addStudentCheckboxToContainer(checkbox, container);
+
     if (student.handedInOnTime) {
-      let container = document.createElement("div");
-      let checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = true;
-
-      container.appendChild(checkbox);
-      let listOfStudents = document.querySelector("ul#passedstudents");
-      listOfStudents?.appendChild(container);
+      addStudentContainerToList(container, "passedstudents");
     } else {
-      let container = document.createElement("div");
-      let checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = false;
-
-      container.appendChild(checkbox);
-      let listOfStudents = document.querySelector("ul#failedstudents");
-      listOfStudents?.appendChild(container);
+      addStudentContainerToList(container, "failedstudents");
     }
   }
 }
+
+// exempel användning
+const students: Student[] = [
+  new Student("Alice", true, true),
+  new Student("Bob", false, false),
+];
+presentStudents(students);
+
 
 /*
   6. Skriv en funktion som skall slå ihop följande texter på ett bra sätt:
   Lorem, ipsum, dolor, sit, amet
   Exemplet under löser problemet, men inte speciellt bra. Hur kan man göra istället?
   */
-function concatenateStrings() {
-  let result = "";
-  result += "Lorem";
-  result += "ipsum";
-  result += "dolor";
-  result += "sit";
-  result += "amet";
+// function concatenateStrings() {
+//   let result = "";
+//   result += "Lorem";
+//   result += "ipsum";
+//   result += "dolor";
+//   result += "sit";
+//   result += "amet";
 
-  return result;
+//   return result;
+// }
+
+/* tog bort result för det behövs ej, liturly tomt, skapar en array,
+och använder join föra tt lösa problemet enklare */
+
+function concatenateStrings(): string {
+  const strings = ["Lorem", "ipsum", "dolor", "sit", "amet"];
+  return strings.join("");
 }
 
 /* 

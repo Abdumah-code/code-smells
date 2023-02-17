@@ -1,68 +1,126 @@
 /*
 1. Se om du kan hitta problem med koden nedan och se om du kan göra den bättre.
 */
-export enum Sort {
-  PRICE_ASCENDING = "Stigande pris",
-  PRICE_DECENDING = "Sjunkande pris",
-  NAME_ALPHABETIC = "Alfabetisk ordning",
-  NAME_ALPHABETIC_REVERSE = "Omvänd alfabetisk ordning",
+// export enum Sort {
+//   PRICE_ASCENDING = "Stigande pris",
+//   PRICE_DECENDING = "Sjunkande pris",
+//   NAME_ALPHABETIC = "Alfabetisk ordning",
+//   NAME_ALPHABETIC_REVERSE = "Omvänd alfabetisk ordning",
+// }
+
+// export class Product {
+//   constructor(
+//     public id: number,
+//     public name: string,
+//     public imageUrl: string[],
+//     public price: number,
+//     public description: string
+//   ) {
+//     this.id = id;
+//     this.name = name;
+//     this.imageUrl = imageUrl;
+//     this.price = price;
+//     this.description = description;
+//   }
+// }
+
+// export function sortProductsBy(sort: Sort, products: Product[]): Product[] {
+//   let copiedList: Product[] = [];
+//   products.forEach((product) => copiedList.push(product));
+
+//   let sortedList: Product[] = [];
+//   if (sort === Sort.PRICE_ASCENDING) {
+//     sortedList = sortList("Price", copiedList);
+//     sortedList.reverse();
+//   } else if (sort === Sort.PRICE_DECENDING) {
+//     sortedList = sortList("Price", copiedList);
+//   } else if (sort === Sort.NAME_ALPHABETIC) {
+//     sortedList = sortList("Name", copiedList);
+//   } else if (sort === Sort.NAME_ALPHABETIC_REVERSE) {
+//     sortedList = sortList("Name", copiedList);
+//     sortedList.reverse();
+//   }
+
+//   return sortedList;
+// }
+
+// function sortList(whichAttribute: string, products: Product[]): Product[] {
+//   return products.sort((p1, p2) => {
+//     if (whichAttribute === "Price") {
+//       if (p1.price < p2.price) {
+//         return 1;
+//       } else if (p1.price > p2.price) {
+//         return -1;
+//       }
+//       return 0;
+//     } else {
+//       if (p1.name < p2.name) {
+//         return 1;
+//       } else if (p1.name > p2.name) {
+//         return -1;
+//       }
+//       return 0;
+//     }
+//   });
+// }
+
+/* delar i flera functioner för det blir enklare att läsa och förstå/tetsa senare med. 
+tog bort alla duplicerad kod också självklart istället för att ha copiedlist så att
+sortedlist nu skapas genom att kopiera products. ändrare variebel namn självklart och typer så finns det inga
+magic strings. adderar erro behandling. adderar products för det fann sinte i og koden. */
+
+interface Product {
+  name: string;
+  price: number;
 }
 
-export class Product {
-  constructor(
-    public id: number,
-    public name: string,
-    public imageUrl: string[],
-    public price: number,
-    public description: string
-  ) {
-    this.id = id;
-    this.name = name;
-    this.imageUrl = imageUrl;
-    this.price = price;
-    this.description = description;
-  }
+enum Sort {
+  PriceAscending,
+  PriceDescending,
+  NameAlphabetic,
+  NameAlphabeticReverse,
 }
 
-export function sortProductsBy(sort: Sort, products: Product[]): Product[] {
-  let copiedList: Product[] = [];
-  products.forEach((product) => copiedList.push(product));
+function compareProductsByPriceAscending(a: Product, b: Product): number {
+  return a.price - b.price;
+}
 
+function compareProductsByPriceDescending(a: Product, b: Product): number {
+  return b.price - a.price;
+}
+
+function compareProductsByNameAlphabetic(a: Product, b: Product): number {
+  return a.name.localeCompare(b.name);
+}
+
+function compareProductsByNameAlphabeticReverse(a: Product, b: Product): number {
+  return b.name.localeCompare(a.name);
+}
+
+function sortProductsBy(sort: Sort, products: Product[]): Product[] {
   let sortedList: Product[] = [];
-  if (sort === Sort.PRICE_ASCENDING) {
-    sortedList = sortList("Price", copiedList);
-    sortedList.reverse();
-  } else if (sort === Sort.PRICE_DECENDING) {
-    sortedList = sortList("Price", copiedList);
-  } else if (sort === Sort.NAME_ALPHABETIC) {
-    sortedList = sortList("Name", copiedList);
-  } else if (sort === Sort.NAME_ALPHABETIC_REVERSE) {
-    sortedList = sortList("Name", copiedList);
-    sortedList.reverse();
+
+  switch (sort) {
+    case Sort.PriceAscending:
+      sortedList = [...products].sort(compareProductsByPriceAscending);
+      break;
+    case Sort.PriceDescending:
+      sortedList = [...products].sort(compareProductsByPriceDescending);
+      break;
+    case Sort.NameAlphabetic:
+      sortedList = [...products].sort(compareProductsByNameAlphabetic);
+      break;
+    case Sort.NameAlphabeticReverse:
+      sortedList = [...products].sort(compareProductsByNameAlphabeticReverse);
+      break;
+    default:
+      throw new Error(`Invalid sort option: ${sort}`);
   }
 
   return sortedList;
 }
 
-function sortList(whichAttribute: string, products: Product[]): Product[] {
-  return products.sort((p1, p2) => {
-    if (whichAttribute === "Price") {
-      if (p1.price < p2.price) {
-        return 1;
-      } else if (p1.price > p2.price) {
-        return -1;
-      }
-      return 0;
-    } else {
-      if (p1.name < p2.name) {
-        return 1;
-      } else if (p1.name > p2.name) {
-        return -1;
-      }
-      return 0;
-    }
-  });
-}
+
 
 /*
   2. Refaktorera funktionen createProductHtml :)

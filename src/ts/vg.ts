@@ -297,6 +297,7 @@ function createProductHtml() {
 
 /*
   3. Refaktorera funktionen getfromstorage
+  jag hinner inte göra detta :[
   */
 export class CartProduct {
   constructor(
